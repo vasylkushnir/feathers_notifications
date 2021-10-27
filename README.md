@@ -1,3 +1,4 @@
+[![Node.js CI](https://github.com/vasylkushnir/feathers_notifications/actions/workflows/node.js.yml/badge.svg)](https://github.com/vasylkushnir/feathers_notifications/actions/workflows/node.js.yml)
 # feathers-sql
 
 > 
