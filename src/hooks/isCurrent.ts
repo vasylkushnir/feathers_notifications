@@ -4,9 +4,9 @@ import { Forbidden } from '@feathersjs/errors';
 import { Hook, HookContext } from '@feathersjs/feathers';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default (options = {}): Hook => {
+export default (): Hook => {
   return async (context: HookContext): Promise<HookContext> => {
-    if (context.params.provider && context.params.user?.id !== context.id) {
+    if (context.params.user?.id !== context.id) {
       throw new Forbidden('access denied');
     }
     return context;

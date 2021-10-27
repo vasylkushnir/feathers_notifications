@@ -1,5 +1,5 @@
 import * as authentication from '@feathersjs/authentication';
-import attachUserId from '../../hooks/attachUserId';
+import { setField } from 'feathers-authentication-hooks';
 // Don't remove this comment. It's needed to format import lines nicely.
 
 const { authenticate } = authentication.hooks;
@@ -8,7 +8,13 @@ const { authenticate } = authentication.hooks;
 export default {
   before: {
 
-    all: [authenticate('jwt'), attachUserId()],
+    all: [
+      authenticate('jwt'),
+      setField({
+        from: 'params.user.id',
+        as: 'params.query.userId'
+      })
+    ],
     find: [],
     get: [],
     create: [],
