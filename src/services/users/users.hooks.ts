@@ -1,7 +1,7 @@
 import * as feathersAuthentication from '@feathersjs/authentication';
 import * as local from '@feathersjs/authentication-local';
 import validate from 'feathers-validate-joi';
-import { createUserSchema, getUsersFilters, updateUserSchema } from './users.validations';
+import { createUserSchema, getUsersFilters, patchUserSchema, updateUserSchema } from './users.validations';
 import isUniqueEmail from '../../hooks/isUniqueEmail';
 import isCurrent from '../../hooks/isCurrent';
 import { disallow, iff, isProvider } from 'feathers-hooks-common';
@@ -17,7 +17,7 @@ export default {
     all: [],
     find: [
       authenticate('jwt'),
-      iff(isProvider('external'),isValidQueryParam(getUsersFilters))
+      iff(isProvider('external'), isValidQueryParam(getUsersFilters))
     ],
     get: [
       authenticate('jwt'),
@@ -31,16 +31,16 @@ export default {
     ],
     update: [
       authenticate('jwt'),
-      iff(isProvider('external'),isValidId(), isCurrent()),
+      isValidId(),
       validate.form(updateUserSchema),
-      iff(isProvider('external'), isUniqueEmail()),
+      iff(isProvider('external'), isCurrent(), isUniqueEmail()),
       hashPassword('password')
     ],
     patch: [
       authenticate('jwt'),
-      iff(isProvider('external'),isValidId(), isCurrent()),
-      validate.form(updateUserSchema),
-      iff(isProvider('external'), isUniqueEmail()),
+      isValidId(),
+      validate.form(patchUserSchema),
+      iff(isProvider('external'), isCurrent(), isUniqueEmail()),
       hashPassword('password')
     ],
     remove: [

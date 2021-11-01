@@ -29,7 +29,7 @@ export default function (app: Application): typeof Model {
     },
     userId: {
       type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV1,
+      defaultValue: DataTypes.UUIDV4,
       allowNull: false
     }
   }, {

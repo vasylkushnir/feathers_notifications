@@ -1,13 +1,21 @@
 import validate from 'feathers-validate-joi';
 import { loginUserSchema } from './authentication.validations';
-import addStrategy from '../../hooks/addStrategy';
+import { HookContext } from '@feathersjs/feathers';
 // Don't remove this comment. It's needed to format import lines nicely.
+
+function addStrategy (context: HookContext): HookContext {
+  context.data = {
+    strategy: context.data.strategy ||'local',
+    ...context.data
+  };
+  return context;
+}
 
 export default {
   before: {
 
     all: [
-      addStrategy(),
+      addStrategy,
       validate.form(loginUserSchema)
     ],
     find: [],

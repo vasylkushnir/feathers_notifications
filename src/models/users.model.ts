@@ -10,7 +10,7 @@ export default function (app: Application): typeof Model {
   const users = sequelizeClient.define('users', {
     id: {
       type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV1,
+      defaultValue: DataTypes.UUIDV4,
       primaryKey: true
     },
     firstName: {

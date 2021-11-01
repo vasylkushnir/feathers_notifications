@@ -29,6 +29,7 @@
     "dev": "ts-node-dev --no-notify src/",
     "start": "npm run compile && node lib/",
     "mocha": "ts-mocha \"test/**/*.ts\" --recursive --exit",
+    "coverage": "nyc npm run test -t ./.nyc-output report --reporter=html",
     "compile": "shx rm -rf lib/ && tsc"
   },
   "standard": {
@@ -79,6 +80,7 @@
     "feathers-validate-joi": "^4.0.1",
     "joi": "^17.4.2",
     "mocha": "^8.4.0",
+    "nyc": "^15.1.0",
     "shx": "^0.3.3",
     "ts-mocha": "^8.0.0",
     "ts-node-dev": "^1.1.8",

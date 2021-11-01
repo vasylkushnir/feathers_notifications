@@ -107,8 +107,11 @@ describe('\'users\' service', () => {
     });
 
     it('should succeed - find user', async () => {
-      const { total } = await service.find();
+      const response = await service.find();
+      const { total } = response;
       expect(total).not.to.equal(0);
+      expect(response).to.have.keys(['total', 'limit', 'skip', 'data']);
+
     });
   });
 
