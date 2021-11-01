@@ -4,9 +4,7 @@ import { Hook, HookContext } from '@feathersjs/feathers';
 import { BadRequest } from '@feathersjs/errors';
 import { userId } from '../services/users/users.validations';
 
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default (options = {}): Hook => {
+export default (): Hook => {
   return async (context: HookContext): Promise<HookContext> => {
     const validationObj = userId.validate({ id: context.id });
     if ('error' in validationObj) {

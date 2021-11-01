@@ -56,7 +56,7 @@ export const userId = Joi.object({
   id: Joi.string().uuid().required()
 });
 
-export const paramsSchema = Joi.object({
+export const getUsersFilters = Joi.object({
   firstName: Joi
     .string()
     .trim()

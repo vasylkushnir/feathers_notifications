@@ -25,5 +25,3 @@ export default function(app: Application): void {
   service.hooks(hooks);
 }
 
-
-// create  before hook - move strategy local from request body to hook before each request

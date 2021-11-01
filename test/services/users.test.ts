@@ -14,10 +14,6 @@ const missedUserData ={
   lastName: 'test user last',
   email: 'create_user@example.com',
 };
-const updateUser ={
-  firstName: 'updated first name',
-  lastName: 'updated user last name',
-};
 let userId: NullableId;
 const unexistedId = '783deee0-3732-11ec-9301-13adbda06b66';
 
@@ -27,7 +23,6 @@ describe('\'users\' service', () => {
   });
 
   describe('create user', () => {
-
     after(async () => {
       await service.remove(userId);
     });
@@ -66,7 +61,6 @@ describe('\'users\' service', () => {
   });
 
   describe('get user', () => {
-
     before(async () => {
       const { id } = await service.create(userInfo);
       userId = id;
@@ -104,7 +98,6 @@ describe('\'users\' service', () => {
   });
 
   describe('find user', () => {
-
     before(async () => {
       const { id } = await service.create(userInfo);
       userId = id;
@@ -120,7 +113,13 @@ describe('\'users\' service', () => {
   });
 
   describe('update (patch) user', () => {
-
+    const updateUser ={
+      firstName: 'updated first name',
+      lastName: 'updated user last name',
+    };
+    const updateUserEmail ={
+      email: 'updatedemail@test.com'
+    };
     before(async () => {
       const { id } = await service.create(userInfo);
       userId = id;
@@ -130,15 +129,16 @@ describe('\'users\' service', () => {
     });
 
     it('should succeed - update(patch) user', async () => {
-      const { firstName, lastName } = await service.patch(userId, updateUser);
+      await service.patch(userId, updateUser);
+      const { firstName, lastName } = await service.get(userId);
       expect(firstName).to.equal(updateUser.firstName);
       expect(lastName).to.equal(updateUser.lastName);
     });
 
-    it('should succeed - user was updated(patch) successfully', async () => {
-      const { firstName, lastName } = await service.get(userId);
-      expect(firstName).to.equal(updateUser.firstName);
-      expect(lastName).to.equal(updateUser.lastName);
+    it('should succeed - update(patch) user email', async () => {
+      await service.patch(userId, updateUserEmail);
+      const { email } = await service.get(userId);
+      expect(email).to.equal(updateUserEmail.email);
     });
 
     it('should fail - invalid user id', async () => {
@@ -165,31 +165,6 @@ describe('\'users\' service', () => {
         const { code, message } = err;
         expect(code).to.equal(400);
         expect(message).to.equal('Invalid data');
-      }
-    });
-  });
-
-  describe('delete user', () => {
-
-    it('should fail - id not found', async () => {
-      try{
-        await service.remove(unexistedId);
-        expect.fail('call should have failed');
-      } catch (err: any) {
-        const { code, message } = err;
-        expect(code).to.equal(404);
-        expect(message).to.equal('No record found for id \'783deee0-3732-11ec-9301-13adbda06b66\'');
-      }
-    });
-
-    it('should fail - invalid id', async () => {
-      try{
-        await service.remove('123456', { provider: 'rest' });
-        expect.fail('call should have failed');
-      } catch (err: any) {
-        const { code, message } = err;
-        expect(code).to.equal(405);
-        expect(message).to.equal('Provider \'rest\' can not call \'remove\'. (disallow)');
       }
     });
   });
@@ -239,6 +214,20 @@ describe('\'users\' service', () => {
         const { code, message } = err;
         expect(code).to.equal(400);
         expect(message).to.equal('Invalid data');
+      }
+    });
+  });
+
+  describe('delete user', () => {
+
+    it('should fail - invalid id', async () => {
+      try{
+        await service.remove('123456', { provider: 'rest' });
+        expect.fail('call should have failed');
+      } catch (err: any) {
+        const { code, message } = err;
+        expect(code).to.equal(405);
+        expect(message).to.equal('Provider \'rest\' can not call \'remove\'. (disallow)');
       }
     });
   });
