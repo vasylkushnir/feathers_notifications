@@ -29,8 +29,10 @@ export default function (app: Application): typeof Model {
     password: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    title: {
+      type: DataTypes.STRING
     }
-
   }, {
     hooks: {
       beforeCount(options: any): HookReturn {

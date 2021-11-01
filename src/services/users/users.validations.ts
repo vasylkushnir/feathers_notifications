@@ -1,8 +1,4 @@
-// add users validations
-// validate if email is exist
-// remove user - should be blocked! (hooks - disallow('extyernal)
 import Joi from 'joi';
-
 
 export const createUserSchema = Joi.object({
   firstName: Joi
@@ -24,9 +20,63 @@ export const createUserSchema = Joi.object({
     .required(),
   password: Joi
     .string()
-    .required()
+    .required(),
+  title: Joi
+    .string()
+    .trim()
+    .min(1)
+    .max(100),
 });
 
+export const updateUserSchema = Joi.object({
+  firstName: Joi
+    .string()
+    .trim()
+    .min(1)
+    .max(100),
+  lastName: Joi
+    .string()
+    .trim()
+    .min(1)
+    .max(100),
+  email: Joi
+    .string()
+    .trim()
+    .email(),
+  password: Joi
+    .string(),
+  title: Joi
+    .string()
+    .trim()
+    .min(1)
+    .max(100),
+});
+
+export const userId = Joi.object({
+  id: Joi.string().uuid().required()
+});
+
+export const paramsSchema = Joi.object({
+  firstName: Joi
+    .string()
+    .trim()
+    .min(1)
+    .max(100),
+  lastName: Joi
+    .string()
+    .trim()
+    .min(1)
+    .max(100),
+  email: Joi
+    .string()
+    .trim()
+    .email(),
+  title: Joi
+    .string()
+    .trim()
+    .min(1)
+    .max(100),
+});
 
 
 

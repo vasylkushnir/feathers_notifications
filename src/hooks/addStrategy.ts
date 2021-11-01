@@ -1,18 +1,15 @@
 // Use this hook to manipulate incoming or outgoing data.
 // For more information on hooks see: http://docs.feathersjs.com/api/hooks.html
 import { Hook, HookContext } from '@feathersjs/feathers';
-import {BadRequest} from '@feathersjs/errors';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default (): Hook => {
+export default (options = {}): Hook => {
   return async (context: HookContext): Promise<HookContext> => {
-    const {app, data} = context;
-    if (data.email){
-      const user = await app.service('users').find({query: {email: data.email}});
-      if(user.total > 0) {
-        throw new BadRequest('Email is already in use. Please log in');
-      }
-    }
+    const {data} = context;
+    context.data = {
+      strategy: 'local',
+      ...context.data
+    };
     return context;
   };
 };

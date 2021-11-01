@@ -1,13 +1,245 @@
-import assert from 'assert';
 import app from '../../src/app';
+import {expect} from 'chai';
+import {NullableId} from '@feathersjs/feathers';
+import {after} from 'mocha';
+
+const service = app.service('users');
+const userInfo = {
+  firstName: 'test user name',
+  lastName: 'test user last',
+  email: 'create@example.com',
+  password: 'supersecret'
+};
+const missedUserData ={
+  lastName: 'test user last',
+  email: 'create_user@example.com',
+};
+const updateUser ={
+  firstName: 'updated first name',
+  lastName: 'updated user last name',
+};
+let userId: NullableId;
+const unexistedId = '783deee0-3732-11ec-9301-13adbda06b66';
 
 describe('\'users\' service', () => {
-  // before
-  // save service globally and use in each test
-  // 
-  it('registered the service', () => {
-    const service = app.service('users');
+  it('It should succeed - registered the service', () => {
+    expect(service).to.exist;
+  });
 
-    assert.ok(service, 'Registered the service');
+  describe('create user', () => {
+
+    after(async () => {
+      await service.remove(userId);
+    });
+
+    it('should succeed - creates user', async () => {
+      const response = await service.create(userInfo);
+      const { id, email } = response;
+      userId = id;
+      expect(id).to.exist;
+      expect(email).to.equal(userInfo.email);
+      expect(response).to.have.keys(['id', 'firstName', 'lastName', 'email', 'createdAt', 'updatedAt', 'password', 'title']);
+    });
+
+    it('should fail - email already in use', async () => {
+      try{
+        await service.create(userInfo);
+        expect.fail('call should have failed');
+      } catch (err: any) {
+        const {code, message} = err;
+        expect(code).to.equal(400);
+        expect(message).to.equal('Email is already in use. Please log in');
+      }
+    });
+
+    it('should fail - missed data', async () => {
+      try{
+        await service.create(missedUserData);
+        expect.fail('call should have failed');
+      } catch (err: any) {
+        const {code, message} = err;
+        expect(code).to.equal(400);
+        expect(message).to.equal('Invalid data');
+      }
+    });
+
+  });
+
+  describe('get user', () => {
+
+    before(async () => {
+      const {id} = await service.create(userInfo);
+      userId = id;
+    });
+    after(async () => {
+      await service.remove(userId);
+    });
+
+    it('should succeed - get user by id', async () => {
+      const { email, id } = await service.get(userId);
+      expect(id).to.exist;
+      expect(email).to.equal(userInfo.email);
+    });
+
+    it('should fail - not existed userId', async () => {
+      try{
+        await service.get(unexistedId);
+        expect.fail('call should have failed');
+      } catch (err: any) {
+        const {code} = err;
+        expect(code).to.equal(404);
+      }
+    });
+
+    it('should fail - invalid userId', async () => {
+      try{
+        await service.get('123456');
+        expect.fail('call should have failed');
+      } catch (err: any) {
+        const {code, message} = err;
+        expect(code).to.equal(400);
+        expect(message).to.equal('ValidationError: "id" must be a valid GUID');
+      }
+    });
+  });
+
+  describe('find user', () => {
+
+    before(async () => {
+      const {id} = await service.create(userInfo);
+      userId = id;
+    });
+    after(async () => {
+      await service.remove(userId);
+    });
+
+    it('should succeed - find user', async () => {
+      const {total} = await service.find();
+      expect(total).not.to.equal(0);
+    });
+  });
+
+  describe('update (patch) user', () => {
+
+    before(async () => {
+      const {id} = await service.create(userInfo);
+      userId = id;
+    });
+    after(async () => {
+      await service.remove(userId);
+    });
+
+    it('should succeed - update(patch) user', async () => {
+      const { firstName, lastName } = await service.patch(userId, updateUser);
+      expect(firstName).to.equal(updateUser.firstName);
+      expect(lastName).to.equal(updateUser.lastName);
+    });
+
+    it('should succeed - user was updated(patch) successfully', async () => {
+      const { firstName, lastName } = await service.get(userId);
+      expect(firstName).to.equal(updateUser.firstName);
+      expect(lastName).to.equal(updateUser.lastName);
+    });
+
+    it('should fail - invalid user id', async () => {
+      try{
+        await service.patch(unexistedId,updateUser);
+        expect.fail('call should have failed');
+      } catch (err: any) {
+        const {code} = err;
+        expect(code).to.equal(404);
+      }
+    });
+
+    it('should fail - invalid user data', async () => {
+      const invalidUserData ={
+        firstName: 12,
+        lastName: 'updated user last name',
+        email: 123456,
+        password: 'supersecret'
+      };
+      try{
+        await service.patch(userId,invalidUserData);
+        expect.fail('call should have failed');
+      } catch (err: any) {
+        const {code, message} = err;
+        expect(code).to.equal(400);
+        expect(message).to.equal('Invalid data');
+      }
+    });
+  });
+
+  describe('delete user', () => {
+
+    it('should fail - id not found', async () => {
+      try{
+        await service.remove(unexistedId);
+        expect.fail('call should have failed');
+      } catch (err: any) {
+        const {code, message} = err;
+        expect(code).to.equal(404);
+        expect(message).to.equal('No record found for id \'783deee0-3732-11ec-9301-13adbda06b66\'');
+      }
+    });
+
+    it('should fail - invalid id', async () => {
+      try{
+        await service.remove('123456', { provider: 'rest' });
+        expect.fail('call should have failed');
+      } catch (err: any) {
+        const {code, message} = err;
+        expect(code).to.equal(405);
+        expect(message).to.equal('Provider \'rest\' can not call \'remove\'. (disallow)');
+      }
+    });
+  });
+
+  describe('update (put) user', () => {
+    const updatePutUser ={
+      firstName: 'updated user name',
+      lastName: 'updated user last',
+      email: 'create@example.com',
+      password: 'supersecret'
+    };
+    before(async () => {
+      const {id} = await service.create(userInfo);
+      userId = id;
+    });
+    after(async () => {
+      await service.remove(userId);
+    });
+
+    it('should succeed - update(put) user', async () => {
+      const { firstName, lastName } = await service.update(userId, updatePutUser);
+      expect(firstName).to.equal(updatePutUser.firstName);
+      expect(lastName).to.equal(updatePutUser.lastName);
+    });
+
+    it('should fail - invalid user id', async () => {
+      try{
+        await service.update(unexistedId,updatePutUser);
+        expect.fail('call should have failed');
+      } catch (err: any) {
+        const {code} = err;
+        expect(code).to.equal(404);
+      }
+    });
+
+    it('should fail - invalid data', async () => {
+      const invalidUserData ={
+        firstName: 12,
+        lastName: 'updated user last name',
+        email: 123456,
+        password: 'supersecret'
+      };
+      try{
+        await service.patch(userId,invalidUserData);
+        expect.fail('call should have failed');
+      } catch (err: any) {
+        const {code, message} = err;
+        expect(code).to.equal(400);
+        expect(message).to.equal('Invalid data');
+      }
+    });
   });
 });
