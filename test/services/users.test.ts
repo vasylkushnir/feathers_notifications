@@ -10,10 +10,6 @@ const userInfo = {
   email: 'create@example.com',
   password: 'supersecret'
 };
-const missedUserData ={
-  lastName: 'test user last',
-  email: 'create_user@example.com',
-};
 let userId: NullableId;
 const unexistedId = '783deee0-3732-11ec-9301-13adbda06b66';
 
@@ -48,8 +44,12 @@ describe('\'users\' service', () => {
     });
 
     it('should fail - missed data', async () => {
+
       try{
-        await service.create(missedUserData);
+        await service.create({
+          lastName: 'test user last',
+          email: 'create_user@example.com',
+        });
         expect.fail('call should have failed');
       } catch (err: any) {
         const { code, message } = err;
