@@ -8,7 +8,7 @@ import hooks from './notifications.hooks';
 // Add this service to the service type index
 declare module '../../declarations' {
   interface ServiceTypes {
-    'notifications': Notifications & ServiceAddons<any>;
+    'notifications': Notifications & ServiceAddons<any>
   }
 }
 

@@ -1,7 +1,7 @@
 import app from '../../src/app';
-import {expect} from 'chai';
-import {NullableId} from '@feathersjs/feathers';
-import {after} from 'mocha';
+import { expect } from 'chai';
+import { NullableId } from '@feathersjs/feathers';
+import { after } from 'mocha';
 
 const service = app.service('users');
 const userInfo = {
@@ -46,7 +46,7 @@ describe('\'users\' service', () => {
         await service.create(userInfo);
         expect.fail('call should have failed');
       } catch (err: any) {
-        const {code, message} = err;
+        const { code, message } = err;
         expect(code).to.equal(400);
         expect(message).to.equal('Email is already in use. Please log in');
       }
@@ -57,7 +57,7 @@ describe('\'users\' service', () => {
         await service.create(missedUserData);
         expect.fail('call should have failed');
       } catch (err: any) {
-        const {code, message} = err;
+        const { code, message } = err;
         expect(code).to.equal(400);
         expect(message).to.equal('Invalid data');
       }
@@ -68,7 +68,7 @@ describe('\'users\' service', () => {
   describe('get user', () => {
 
     before(async () => {
-      const {id} = await service.create(userInfo);
+      const { id } = await service.create(userInfo);
       userId = id;
     });
     after(async () => {
@@ -86,7 +86,7 @@ describe('\'users\' service', () => {
         await service.get(unexistedId);
         expect.fail('call should have failed');
       } catch (err: any) {
-        const {code} = err;
+        const { code } = err;
         expect(code).to.equal(404);
       }
     });
@@ -96,7 +96,7 @@ describe('\'users\' service', () => {
         await service.get('123456');
         expect.fail('call should have failed');
       } catch (err: any) {
-        const {code, message} = err;
+        const { code, message } = err;
         expect(code).to.equal(400);
         expect(message).to.equal('ValidationError: "id" must be a valid GUID');
       }
@@ -106,7 +106,7 @@ describe('\'users\' service', () => {
   describe('find user', () => {
 
     before(async () => {
-      const {id} = await service.create(userInfo);
+      const { id } = await service.create(userInfo);
       userId = id;
     });
     after(async () => {
@@ -114,7 +114,7 @@ describe('\'users\' service', () => {
     });
 
     it('should succeed - find user', async () => {
-      const {total} = await service.find();
+      const { total } = await service.find();
       expect(total).not.to.equal(0);
     });
   });
@@ -122,7 +122,7 @@ describe('\'users\' service', () => {
   describe('update (patch) user', () => {
 
     before(async () => {
-      const {id} = await service.create(userInfo);
+      const { id } = await service.create(userInfo);
       userId = id;
     });
     after(async () => {
@@ -146,7 +146,7 @@ describe('\'users\' service', () => {
         await service.patch(unexistedId,updateUser);
         expect.fail('call should have failed');
       } catch (err: any) {
-        const {code} = err;
+        const { code } = err;
         expect(code).to.equal(404);
       }
     });
@@ -162,7 +162,7 @@ describe('\'users\' service', () => {
         await service.patch(userId,invalidUserData);
         expect.fail('call should have failed');
       } catch (err: any) {
-        const {code, message} = err;
+        const { code, message } = err;
         expect(code).to.equal(400);
         expect(message).to.equal('Invalid data');
       }
@@ -176,7 +176,7 @@ describe('\'users\' service', () => {
         await service.remove(unexistedId);
         expect.fail('call should have failed');
       } catch (err: any) {
-        const {code, message} = err;
+        const { code, message } = err;
         expect(code).to.equal(404);
         expect(message).to.equal('No record found for id \'783deee0-3732-11ec-9301-13adbda06b66\'');
       }
@@ -187,7 +187,7 @@ describe('\'users\' service', () => {
         await service.remove('123456', { provider: 'rest' });
         expect.fail('call should have failed');
       } catch (err: any) {
-        const {code, message} = err;
+        const { code, message } = err;
         expect(code).to.equal(405);
         expect(message).to.equal('Provider \'rest\' can not call \'remove\'. (disallow)');
       }
@@ -202,7 +202,7 @@ describe('\'users\' service', () => {
       password: 'supersecret'
     };
     before(async () => {
-      const {id} = await service.create(userInfo);
+      const { id } = await service.create(userInfo);
       userId = id;
     });
     after(async () => {
@@ -220,7 +220,7 @@ describe('\'users\' service', () => {
         await service.update(unexistedId,updatePutUser);
         expect.fail('call should have failed');
       } catch (err: any) {
-        const {code} = err;
+        const { code } = err;
         expect(code).to.equal(404);
       }
     });
@@ -236,7 +236,7 @@ describe('\'users\' service', () => {
         await service.patch(userId,invalidUserData);
         expect.fail('call should have failed');
       } catch (err: any) {
-        const {code, message} = err;
+        const { code, message } = err;
         expect(code).to.equal(400);
         expect(message).to.equal('Invalid data');
       }

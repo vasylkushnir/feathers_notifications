@@ -1,5 +1,5 @@
 import validate from 'feathers-validate-joi';
-import {loginUserSchema} from './authentication.validations';
+import { loginUserSchema } from './authentication.validations';
 import addStrategy from '../../hooks/addStrategy';
 // Don't remove this comment. It's needed to format import lines nicely.
 

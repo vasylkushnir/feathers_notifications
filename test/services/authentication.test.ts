@@ -1,7 +1,7 @@
 import app from '../../src/app';
-import {after} from 'mocha';
+import { after } from 'mocha';
 import { NullableId } from '@feathersjs/feathers';
-import {expect} from 'chai';
+import { expect } from 'chai';
 
 const service = app.service('authentication');
 const userInfo = {
@@ -26,7 +26,7 @@ describe('authentication', () => {
   });
   describe('local strategy', () => {
     before(async () => {
-      const {id} = await app.service('users').create(userInfo);
+      const { id } = await app.service('users').create(userInfo);
       userId = id;
     });
     after(async () => {

@@ -1,10 +1,10 @@
 import * as feathersAuthentication from '@feathersjs/authentication';
 import * as local from '@feathersjs/authentication-local';
 import validate from 'feathers-validate-joi';
-import {createUserSchema, updateUserSchema} from './users.validations';
+import { createUserSchema, updateUserSchema } from './users.validations';
 import isUniqueEmail from '../../hooks/isUniqueEmail';
 import isCurrent from '../../hooks/isCurrent';
-import {disallow, iff, isProvider} from 'feathers-hooks-common';
+import { disallow, iff, isProvider } from 'feathers-hooks-common';
 import isValidId from '../../hooks/isValidId';
 import isValidQueryParam from '../../hooks/isValidQueryParam';
 // Don't remove this comment. It's needed to format import lines nicely.

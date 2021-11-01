@@ -8,7 +8,7 @@ import hooks from '../authentication/authentication.hooks';
 
 declare module '../../declarations' {
   interface ServiceTypes {
-    'authentication': AuthenticationService & ServiceAddons<any>;
+    'authentication': AuthenticationService & ServiceAddons<any>
   }
 }
 
