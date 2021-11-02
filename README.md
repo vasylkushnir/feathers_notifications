@@ -1,4 +1,5 @@
 [![Node.js CI](https://github.com/vasylkushnir/feathers_notifications/actions/workflows/node.js.yml/badge.svg)](https://github.com/vasylkushnir/feathers_notifications/actions/workflows/node.js.yml)
+[![Coverage Status](https://coveralls.io/repos/github/vasylkushnir/feathers_notifications/badge.svg?branch=main)](https://coveralls.io/github/vasylkushnir/feathers_notifications?branch=main)
 # feathers-sql
 
 > 

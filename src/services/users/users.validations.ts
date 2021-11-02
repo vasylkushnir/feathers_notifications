@@ -21,13 +21,7 @@ export const updateUserSchema = Joi.object({
   title: titleSchema,
 });
 
-export const replaceUserSchema = Joi.object({
-  firstName: firstNameSchema.required(),
-  lastName: lastNameSchema.required(),
-  email: emailSchema.required(),
-  password: passwordSchema.required(),
-  title: titleSchema,
-});
+export const replaceUserSchema = createUserSchema;
 
 export const userId = Joi.object({
   id: Joi.string().uuid().required(),
