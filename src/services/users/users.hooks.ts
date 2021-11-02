@@ -17,49 +17,49 @@ export default {
     all: [],
     find: [
       authenticate('jwt'),
-      iff(isProvider('external'), isValidQueryParam(getUsersFilters))
+      iff(isProvider('external'), isValidQueryParam(getUsersFilters)),
     ],
     get: [
       authenticate('jwt'),
       isValidId(),
-      iff(isProvider('external'), isCurrent())
+      iff(isProvider('external'), isCurrent()),
     ],
     create: [
       validate.form(createUserSchema),
       isUniqueEmail(),
-      hashPassword('password')
+      hashPassword('password'),
     ],
     update: [
       authenticate('jwt'),
       isValidId(),
       validate.form(replaceUserSchema),
       iff(isProvider('external'), isCurrent(), isUniqueEmail()),
-      hashPassword('password')
+      hashPassword('password'),
     ],
     patch: [
       authenticate('jwt'),
       isValidId(),
       validate.form(updateUserSchema),
       iff(isProvider('external'), isCurrent(), isUniqueEmail()),
-      hashPassword('password')
+      hashPassword('password'),
     ],
     remove: [
-      disallow('external')
-    ]
+      disallow('external'),
+    ],
   },
 
   after: {
     all: [
       // Make sure the password field is never sent to the client
       // Always must be the last hook
-      protect('password')
+      protect('password'),
     ],
     find: [],
     get: [],
     create: [],
     update: [],
     patch: [],
-    remove: []
+    remove: [],
   },
 
   error: {
@@ -69,6 +69,6 @@ export default {
     create: [],
     update: [],
     patch: [],
-    remove: []
-  }
+    remove: [],
+  },
 };

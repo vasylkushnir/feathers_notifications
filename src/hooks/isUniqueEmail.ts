@@ -6,7 +6,7 @@ export default (): Hook => {
     const { app, data } = context;
     if (data.email){
       const user = await app.service('users').find({ query: { email: data.email } });
-      if(user.total > 0) {
+      if (user.total > 0) {
         throw new BadRequest('Email is already in use. Please log in');
       }
     }

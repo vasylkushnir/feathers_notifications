@@ -8,15 +8,15 @@ const userInfo = {
   firstName: 'test user name',
   lastName: 'test user last',
   email: 'someone_test@example.com',
-  password: 'supersecret'
+  password: 'supersecret',
 };
-const userLogin ={
+const userLogin = {
   email: 'someone_test@example.com',
-  password: 'supersecret'
+  password: 'supersecret',
 };
 const notExistedUser = {
   email: 'notexisteduser@example.com',
-  password: 'supersecret'
+  password: 'supersecret',
 };
 let userId: NullableId;
 
@@ -24,27 +24,29 @@ describe('authentication', () => {
   it('should succeed - registered the authentication service', () => {
     expect(service).to.exist;
   });
+
   describe('local strategy', () => {
     before(async () => {
       const { id } = await app.service('users').create(userInfo);
       userId = id;
     });
+    
     after(async () => {
       await app.service('users').remove(userId);
     });
 
     it('should succeed - authenticates user and creates accessToken', async () => {
       const { user, accessToken } = await service.create({
-        ...userLogin
+        ...userLogin,
       }, {});
       expect(user.id).to.be.equal(userId);
       expect(accessToken).to.exist;
     });
 
     it('should fail - unexisted email', async () => {
-      try{
+      try {
         await service.create({
-          ...notExistedUser
+          ...notExistedUser,
         }, {});
         expect.fail('call should have failed');
       } catch (err: any) {

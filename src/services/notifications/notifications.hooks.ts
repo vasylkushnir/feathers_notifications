@@ -12,15 +12,15 @@ export default {
       authenticate('jwt'),
       setField({
         from: 'params.user.id',
-        as: 'params.query.userId'
-      })
+        as: 'params.query.userId',
+      }),
     ],
     find: [],
     get: [],
     create: [],
     update: [],
     patch: [],
-    remove: [ ]
+    remove: [ ],
   },
 
   after: {
@@ -30,7 +30,7 @@ export default {
     create: [],
     update: [],
     patch: [],
-    remove: []
+    remove: [],
   },
 
   error: {
@@ -40,6 +40,6 @@ export default {
     create: [],
     update: [],
     patch: [],
-    remove: []
-  }
+    remove: [],
+  },
 };

@@ -8,7 +8,7 @@ const userInfo = {
   firstName: 'test user name',
   lastName: 'test user last',
   email: 'create@example.com',
-  password: 'supersecret'
+  password: 'supersecret',
 };
 let userId: NullableId;
 const unexistedId = '783deee0-3732-11ec-9301-13adbda06b66';
@@ -33,7 +33,7 @@ describe('\'users\' service', () => {
     });
 
     it('should fail - email already in use', async () => {
-      try{
+      try {
         await service.create(userInfo);
         expect.fail('call should have failed');
       } catch (err: any) {
@@ -44,8 +44,7 @@ describe('\'users\' service', () => {
     });
 
     it('should fail - missed data', async () => {
-
-      try{
+      try {
         await service.create({
           lastName: 'test user last',
           email: 'create_user@example.com',
@@ -65,6 +64,7 @@ describe('\'users\' service', () => {
       const { id } = await service.create(userInfo);
       userId = id;
     });
+
     after(async () => {
       await service.remove(userId);
     });
@@ -76,7 +76,7 @@ describe('\'users\' service', () => {
     });
 
     it('should fail - not existed userId', async () => {
-      try{
+      try {
         await service.get(unexistedId);
         expect.fail('call should have failed');
       } catch (err: any) {
@@ -86,7 +86,7 @@ describe('\'users\' service', () => {
     });
 
     it('should fail - invalid userId', async () => {
-      try{
+      try {
         await service.get('123456');
         expect.fail('call should have failed');
       } catch (err: any) {
@@ -102,6 +102,7 @@ describe('\'users\' service', () => {
       const { id } = await service.create(userInfo);
       userId = id;
     });
+
     after(async () => {
       await service.remove(userId);
     });
@@ -119,20 +120,21 @@ describe('\'users\' service', () => {
       firstName: 'test user name',
       lastName: 'test user last',
       email: 'update@example.com',
-      password: 'supersecret'
+      password: 'supersecret',
     };
-    const updateUser ={
+    const updateUser = {
       firstName: 'updated first name',
       lastName: 'updated user last name',
     };
-    const updateUserEmail ={
-      email: 'updatedemail@test.com'
+    const updateUserEmail = {
+      email: 'updatedemail@test.com',
     };
     let _userId: NullableId;
     before(async () => {
       const { id } = await service.create(userInfo);
       userId = id;
     });
+
     before(async () => {
       const { id } = await service.create(existUser);
       _userId = id;
@@ -157,7 +159,7 @@ describe('\'users\' service', () => {
     });
 
     it('should fail - invalid user id', async () => {
-      try{
+      try {
         await service.patch(unexistedId,updateUser);
         expect.fail('call should have failed');
       } catch (err: any) {
@@ -167,13 +169,13 @@ describe('\'users\' service', () => {
     });
 
     it('should fail - invalid user data', async () => {
-      const invalidUserData ={
+      const invalidUserData = {
         firstName: 12,
         lastName: 'updated user last name',
         email: 123456,
-        password: 'supersecret'
+        password: 'supersecret',
       };
-      try{
+      try {
         await service.patch(userId,invalidUserData);
         expect.fail('call should have failed');
       } catch (err: any) {
@@ -184,7 +186,7 @@ describe('\'users\' service', () => {
     });
 
     it('should fail - email already in use', async () => {
-      try{
+      try {
         await service.patch(userId, { email: 'update@example.com' });
         expect.fail('call should have failed');
       } catch (err: any) {
@@ -196,16 +198,17 @@ describe('\'users\' service', () => {
   });
 
   describe('update (put) user', () => {
-    const updatePutUser ={
+    const updatePutUser = {
       firstName: 'updated user name',
       lastName: 'updated user last',
       email: 'create@example.com',
-      password: 'supersecret'
+      password: 'supersecret',
     };
     before(async () => {
       const { id } = await service.create(userInfo);
       userId = id;
     });
+
     after(async () => {
       await service.remove(userId);
     });
@@ -217,7 +220,7 @@ describe('\'users\' service', () => {
     });
 
     it('should fail - invalid user id', async () => {
-      try{
+      try {
         await service.update(unexistedId,updatePutUser);
         expect.fail('call should have failed');
       } catch (err: any) {
@@ -227,13 +230,13 @@ describe('\'users\' service', () => {
     });
 
     it('should fail - invalid data', async () => {
-      const invalidUserData ={
+      const invalidUserData = {
         firstName: 12,
         lastName: 'updated user last name',
         email: 123456,
-        password: 'supersecret'
+        password: 'supersecret',
       };
-      try{
+      try {
         await service.patch(userId,invalidUserData);
         expect.fail('call should have failed');
       } catch (err: any) {
@@ -247,7 +250,7 @@ describe('\'users\' service', () => {
   describe('delete user', () => {
 
     it('should fail - invalid id', async () => {
-      try{
+      try {
         await service.remove('123456', { provider: 'rest' });
         expect.fail('call should have failed');
       } catch (err: any) {

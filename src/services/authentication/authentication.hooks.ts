@@ -5,8 +5,8 @@ import { HookContext } from '@feathersjs/feathers';
 
 function addStrategy (context: HookContext): HookContext {
   context.data = {
-    strategy: context.data.strategy ||'local',
-    ...context.data
+    strategy: context.data.strategy || 'local',
+    ...context.data,
   };
   return context;
 }
@@ -16,14 +16,14 @@ export default {
 
     all: [
       addStrategy,
-      validate.form(loginUserSchema)
+      validate.form(loginUserSchema),
     ],
     find: [],
     get: [],
     create: [],
     update: [],
     patch: [],
-    remove: []
+    remove: [],
   },
 
   after: {
@@ -33,7 +33,7 @@ export default {
     create: [],
     update: [],
     patch: [],
-    remove: []
+    remove: [],
   },
 
   error: {
@@ -43,6 +43,6 @@ export default {
     create: [],
     update: [],
     patch: [],
-    remove: []
-  }
+    remove: [],
+  },
 };

@@ -25,7 +25,8 @@
   },
   "scripts": {
     "test": "npm run lint && npm run compile && npm run mocha",
-    "lint": "eslint src/. test/. --config .eslintrc.json --ext .ts --fix",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "npm run lint -- --fix",
     "dev": "ts-node-dev --no-notify src/",
     "start": "npm run compile && node lib/",
     "mocha": "ts-mocha \"test/**/*.ts\" --recursive --exit",

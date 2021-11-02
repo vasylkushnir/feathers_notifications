@@ -10,7 +10,7 @@ const getUrl = (pathname?: string): string => url.format({
   hostname: app.get('host') || 'localhost',
   protocol: 'http',
   port,
-  pathname
+  pathname,
 });
 
 describe('Feathers application tests', () => {
@@ -36,8 +36,8 @@ describe('Feathers application tests', () => {
       try {
         await axios.get(getUrl('path/to/nowhere'), {
           headers: {
-            'Accept': 'text/html'
-          }
+            'Accept': 'text/html',
+          },
         });
         assert.fail('should never get here');
       } catch (error) {

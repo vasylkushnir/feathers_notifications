@@ -11,5 +11,5 @@ export const loginUserSchema = Joi.object({
     .required(),
   password: Joi
     .string()
-    .required()
+    .required(),
 });

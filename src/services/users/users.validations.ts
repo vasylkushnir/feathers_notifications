@@ -10,7 +10,7 @@ export const createUserSchema = Joi.object({
   lastName: lastNameSchema.required(),
   email: emailSchema.required(),
   password: passwordSchema.required(),
-  title: titleSchema
+  title: titleSchema,
 });
 
 export const updateUserSchema = Joi.object({
@@ -30,7 +30,7 @@ export const replaceUserSchema = Joi.object({
 });
 
 export const userId = Joi.object({
-  id: Joi.string().uuid().required()
+  id: Joi.string().uuid().required(),
 });
 
 export const getUsersFilters = Joi.object({
