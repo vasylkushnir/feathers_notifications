@@ -11,33 +11,33 @@ export default function (app: Application): typeof Model {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV1,
-      primaryKey: true
+      primaryKey: true,
     },
     description: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     isRead: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      defaultValue: false
+      defaultValue: false,
     },
     type: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue: 1
+      defaultValue: 1,
     },
     userId: {
       type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV1,
-      allowNull: false
-    }
+      defaultValue: DataTypes.UUIDV4,
+      allowNull: false,
+    },
   }, {
     hooks: {
       beforeCount(options: any): HookReturn {
         options.raw = true;
-      }
-    }
+      },
+    },
   });
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

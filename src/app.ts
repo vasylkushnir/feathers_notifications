@@ -17,7 +17,7 @@ import services from './services';
 import appHooks from './app.hooks';
 import channels from './channels';
 import { HookContext as FeathersHookContext } from '@feathersjs/feathers';
-import authentication from './authentication';
+import authentication from './services/authentication/authentication.service';
 import sequelize from './sequelize';
 // Don't remove this comment. It's needed to format import lines nicely.
 
@@ -28,7 +28,7 @@ export type HookContext<T = any> = { app: Application } & FeathersHookContext<T>
 app.configure(configuration());
 // Enable security, CORS, compression, favicon and body parsing
 app.use(helmet({
-  contentSecurityPolicy: false
+  contentSecurityPolicy: false,
 }));
 app.use(cors());
 app.use(compress());

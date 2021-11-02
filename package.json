@@ -25,10 +25,12 @@
   },
   "scripts": {
     "test": "npm run lint && npm run compile && npm run mocha",
-    "lint": "eslint src/. test/. --config .eslintrc.json --ext .ts --fix",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "npm run lint -- --fix",
     "dev": "ts-node-dev --no-notify src/",
     "start": "npm run compile && node lib/",
     "mocha": "ts-mocha \"test/**/*.ts\" --recursive --exit",
+    "coverage": "nyc npm run test -t ./.nyc-output report --reporter=html --reporter=lcov",
     "compile": "shx rm -rf lib/ && tsc"
   },
   "standard": {
@@ -73,11 +75,13 @@
     "axios": "^0.23.0",
     "chai": "^4.3.4",
     "eslint": "^7.32.0",
+    "eslint-plugin-import": "^2.25.2",
     "feathers-authentication-hooks": "^1.0.2",
     "feathers-hooks-common": "^5.0.6",
     "feathers-validate-joi": "^4.0.1",
     "joi": "^17.4.2",
     "mocha": "^8.4.0",
+    "nyc": "^15.1.0",
     "shx": "^0.3.3",
     "ts-mocha": "^8.0.0",
     "ts-node-dev": "^1.1.8",

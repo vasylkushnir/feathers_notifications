@@ -16,6 +16,21 @@
     "plugin:@typescript-eslint/recommended"
   ],
   "rules": {
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_"
+      }
+    ],
+    "@typescript-eslint/member-delimiter-style": [
+      "error", {
+        "multiline": {
+          "delimiter": "none",
+          "requireLast": true
+        }
+      }
+    ],
     "indent": [
       "error",
       2
@@ -32,7 +47,50 @@
       "error",
       "always"
     ],
+    "object-curly-spacing": [
+      2, 
+      "always"
+    ],
+    "brace-style": [
+      "error",
+      "1tbs",
+      {
+        "allowSingleLine": false
+      }
+    ],
+    "curly": [
+      "error",
+      "all"
+    ],
+    "comma-dangle": [
+      "error",
+      "always-multiline"
+    ],
+    "dot-notation": "warn",
+    "eqeqeq": [
+      "error",
+      "always"
+    ],
+    "no-var": "error",
+    "object-shorthand": "warn",
+    "prefer-destructuring": [
+      "error",
+      {
+        "array": false
+      }
+    ],
+    "prefer-template": "error",
+    "require-await": "warn",
+    "space-infix-ops": [
+      "error"
+    ],
+    "keyword-spacing": "off",
+    "@typescript-eslint/keyword-spacing": ["error"],
     "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/no-empty-interface": "off"
+    "@typescript-eslint/no-empty-interface": "off",
+    "no-console": "error",
+    "no-else-return": "error",
+    "no-lonely-if": "error",
+    "no-return-await": "error"
   }
 }

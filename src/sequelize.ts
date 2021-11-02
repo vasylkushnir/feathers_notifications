@@ -7,8 +7,8 @@ export default function (app: Application): void {
     dialect: 'postgres',
     logging: false,
     define: {
-      freezeTableName: true
-    }
+      freezeTableName: true,
+    },
   });
   const oldSetup = app.setup;
 
