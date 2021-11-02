@@ -1,7 +1,7 @@
 import * as feathersAuthentication from '@feathersjs/authentication';
 import * as local from '@feathersjs/authentication-local';
 import validate from 'feathers-validate-joi';
-import { createUserSchema, getUsersFilters, patchUserSchema, updateUserSchema } from './users.validations';
+import { createUserSchema, getUsersFilters, replaceUserSchema, updateUserSchema } from './users.validations';
 import isUniqueEmail from '../../hooks/isUniqueEmail';
 import isCurrent from '../../hooks/isCurrent';
 import { disallow, iff, isProvider } from 'feathers-hooks-common';
@@ -32,14 +32,14 @@ export default {
     update: [
       authenticate('jwt'),
       isValidId(),
-      validate.form(updateUserSchema),
+      validate.form(replaceUserSchema),
       iff(isProvider('external'), isCurrent(), isUniqueEmail()),
       hashPassword('password')
     ],
     patch: [
       authenticate('jwt'),
       isValidId(),
-      validate.form(patchUserSchema),
+      validate.form(updateUserSchema),
       iff(isProvider('external'), isCurrent(), isUniqueEmail()),
       hashPassword('password')
     ],

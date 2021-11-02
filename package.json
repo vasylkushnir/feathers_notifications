@@ -29,7 +29,7 @@
     "dev": "ts-node-dev --no-notify src/",
     "start": "npm run compile && node lib/",
     "mocha": "ts-mocha \"test/**/*.ts\" --recursive --exit",
-    "coverage": "nyc npm run test -t ./.nyc-output report --reporter=html",
+    "coverage": "nyc npm run test -t ./.nyc-output report --reporter=html --reporter=lcov",
     "compile": "shx rm -rf lib/ && tsc"
   },
   "standard": {

@@ -13,7 +13,7 @@ export const createUserSchema = Joi.object({
   title: titleSchema
 });
 
-export const patchUserSchema = Joi.object({
+export const updateUserSchema = Joi.object({
   firstName: firstNameSchema,
   lastName: lastNameSchema,
   email: emailSchema,
@@ -21,7 +21,7 @@ export const patchUserSchema = Joi.object({
   title: titleSchema,
 });
 
-export const updateUserSchema = Joi.object({
+export const replaceUserSchema = Joi.object({
   firstName: firstNameSchema.required(),
   lastName: lastNameSchema.required(),
   email: emailSchema.required(),

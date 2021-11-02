@@ -111,11 +111,16 @@ describe('\'users\' service', () => {
       const { total } = response;
       expect(total).not.to.equal(0);
       expect(response).to.have.keys(['total', 'limit', 'skip', 'data']);
-
     });
   });
 
   describe('update (patch) user', () => {
+    const existUser = {
+      firstName: 'test user name',
+      lastName: 'test user last',
+      email: 'update@example.com',
+      password: 'supersecret'
+    };
     const updateUser ={
       firstName: 'updated first name',
       lastName: 'updated user last name',
@@ -123,12 +128,19 @@ describe('\'users\' service', () => {
     const updateUserEmail ={
       email: 'updatedemail@test.com'
     };
+    let _userId: NullableId;
     before(async () => {
       const { id } = await service.create(userInfo);
       userId = id;
     });
+    before(async () => {
+      const { id } = await service.create(existUser);
+      _userId = id;
+    });
+
     after(async () => {
       await service.remove(userId);
+      await service.remove(_userId);
     });
 
     it('should succeed - update(patch) user', async () => {
@@ -168,6 +180,17 @@ describe('\'users\' service', () => {
         const { code, message } = err;
         expect(code).to.equal(400);
         expect(message).to.equal('Invalid data');
+      }
+    });
+
+    it('should fail - email already in use', async () => {
+      try{
+        await service.patch(userId, { email: 'update@example.com' });
+        expect.fail('call should have failed');
+      } catch (err: any) {
+        const { code, message } = err;
+        expect(code).to.equal(400);
+        expect(message).to.equal('Validation error');
       }
     });
   });
