@@ -49,6 +49,7 @@ export default {
     update: [isValidId(notificationId)],
     patch: [
       validate.form(updateNotificationSchema),
+      isValidId(notificationId),
       setNotificationStatus(),
     ],
     remove: [isValidId(notificationId)],

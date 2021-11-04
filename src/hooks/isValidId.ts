@@ -9,9 +9,11 @@ import Joi from 'joi';
  */
 export default (schemaValidate: Joi.Schema): Hook => {
   return (context: HookContext): HookContext => {
-    const validationObj = schemaValidate.validate({ id: context.id });
-    if (validationObj.error) {
-      throw new BadRequest(`${validationObj.error.details[0].message}`);
+    if (context.id) {
+      const validationObj = schemaValidate.validate({ id: context.id });
+      if (validationObj.error) {
+        throw new BadRequest(`${validationObj.error.details[0].message}`);
+      }
     }
     return context;
   };
