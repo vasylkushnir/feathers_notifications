@@ -92,7 +92,7 @@ describe('\'users\' service', () => {
       } catch (err: any) {
         const { code, message } = err;
         expect(code).to.equal(400);
-        expect(message).to.equal('ValidationError: "id" must be a valid GUID');
+        expect(message).to.equal('"id" must be a valid GUID');
       }
     });
   });

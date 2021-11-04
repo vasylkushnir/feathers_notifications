@@ -1,10 +1,15 @@
 import { Hook, HookContext } from '@feathersjs/feathers';
 import { BadRequest } from '@feathersjs/errors';
-import { userId } from '../services/users/users.validations';
+import Joi from 'joi';
 
-export default (): Hook => {
+/**
+ * Check if id is valid UUID
+ * schemaValidate - Joi object with validation rules
+ * context.id - UUID to validate
+ */
+export default (schemaValidate: Joi.Schema): Hook => {
   return (context: HookContext): HookContext => {
-    const validationObj = userId.validate({ id: context.id });
+    const validationObj = schemaValidate.validate({ id: context.id });
     if (validationObj.error) {
       throw new BadRequest(`${validationObj.error.details[0].message}`);
     }
