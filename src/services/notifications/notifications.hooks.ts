@@ -29,12 +29,13 @@ function setNotificationStatus(context: HookContext): HookContext {
   return context;
 }
 function sortByCreatedAt(context: HookContext): HookContext {
-  context.params.query = {
-    $sort: { createdAt: -1 },
-    ...context.params.query,
-  };
+  if (!context.params.query?.$sort) { 
+    context.params.query = {
+      $sort: { createdAt: -1 },
+      ...context.params.query,
+    };
+  }
   return context;
-
 }
 
 export default {
