@@ -3,7 +3,7 @@ import { Server } from 'http';
 import url from 'url';
 import axios from 'axios';
 
-import app from '../src/app';
+import app from './app';
 
 const port = app.get('port') || 8998;
 const getUrl = (pathname?: string): string => url.format({
@@ -26,8 +26,8 @@ describe('Feathers application tests', () => {
   });
 
   it('starts and shows the index page', async () => {
-    const { data } = await axios.get(getUrl());
-
+    const response: any = await axios.get(getUrl());
+    const { data } = response;
     assert.ok(data.indexOf('<html lang="en">') !== -1);
   });
 
@@ -40,7 +40,7 @@ describe('Feathers application tests', () => {
           },
         });
         assert.fail('should never get here');
-      } catch (error) {
+      } catch (error: any) {
         const { response } = error;
 
         assert.equal(response.status, 404);
@@ -52,9 +52,8 @@ describe('Feathers application tests', () => {
       try {
         await axios.get(getUrl('path/to/nowhere'));
         assert.fail('should never get here');
-      } catch (error) {
+      } catch (error: any) {
         const { response } = error;
-
         assert.equal(response.status, 404);
         assert.equal(response.data.code, 404);
         assert.equal(response.data.message, 'Page not found');

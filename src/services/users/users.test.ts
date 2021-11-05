@@ -1,4 +1,4 @@
-import app from '../../src/app';
+import app from '../../app';
 import { expect } from 'chai';
 import { NullableId } from '@feathersjs/feathers';
 import { after } from 'mocha';
@@ -10,7 +10,7 @@ const userInfo = {
   email: 'create@example.com',
   password: 'supersecret',
 };
-let userId: NullableId;
+let userId: number;
 const unexistedId = '783deee0-3732-11ec-9301-13adbda06b66';
 
 describe('\'users\' service', () => {
@@ -108,7 +108,7 @@ describe('\'users\' service', () => {
     });
 
     it('should succeed - find user', async () => {
-      const response = await service.find();
+      const response: any = await service.find();
       const { total } = response;
       expect(total).not.to.equal(0);
       expect(response).to.have.keys(['total', 'limit', 'skip', 'data']);
