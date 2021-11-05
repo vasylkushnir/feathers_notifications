@@ -6,6 +6,7 @@ const type = Joi.string().valid(...Object.values(NotificationType));
 const userId = Joi.string().uuid();
 const limit = Joi.number().min(0).max(100).default(20);
 const skip = Joi.number().min(0).max(100).default(0);
+const sort = Joi.string();
 
 export const createNotificationSchema = Joi.object({
   description: description.required(),
@@ -23,6 +24,7 @@ export const getNotificationFilters = Joi.object({
   type,
   $limit: limit,
   $skip: skip,
+  $sort: sort,
 });
 
 export const updateNotificationSchema = Joi.object({

@@ -20,11 +20,21 @@ const { authenticate } = authentication.hooks;
  * Add isRead = false query param to update only not read notifications
  * */
 function setNotificationStatus(context: HookContext): HookContext {
+  if (!context.id){
+    context.params.query = {
+      isRead: false,
+      ...context.params.query,
+    };
+  }
+  return context;
+}
+function sortByCreatedAt(context: HookContext): HookContext {
   context.params.query = {
-    isRead: false,
+    $sort: { createdAt: -1 },
     ...context.params.query,
   };
   return context;
+
 }
 
 export default {
@@ -39,6 +49,7 @@ export default {
     ],
     find: [
       iff(isProvider('external'), isValidQueryParam(getNotificationFilters)),
+      sortByCreatedAt,
     ],
     get: [isValidId(notificationId)],
     create: [
