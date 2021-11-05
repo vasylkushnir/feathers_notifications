@@ -11,7 +11,7 @@ import isValidId from '../../hooks/isValidId';
 import { iff, isProvider } from 'feathers-hooks-common';
 import isValidQueryParam from '../../hooks/isValidQueryParam';
 import isExistingUser from '../../hooks/isExistingUser';
-import { Hook, HookContext } from '@feathersjs/feathers';
+import { HookContext } from '@feathersjs/feathers';
 // Don't remove this comment. It's needed to format import lines nicely.
 
 const { authenticate } = authentication.hooks;
@@ -19,13 +19,12 @@ const { authenticate } = authentication.hooks;
 /**
  * Add isRead = false query param to update only not read notifications
  * */
-function setNotificationStatus(): Hook  {
-  return (context: HookContext): HookContext => {
-    context.params.query = ({
-      isRead: false,
-    });
-    return context;
+function setNotificationStatus(context: HookContext): HookContext {
+  context.params.query = {
+    isRead: false,
+    ...context.params.query,
   };
+  return context;
 }
 
 export default {
@@ -50,7 +49,7 @@ export default {
     patch: [
       validate.form(updateNotificationSchema),
       isValidId(notificationId),
-      setNotificationStatus(),
+      setNotificationStatus,
     ],
     remove: [isValidId(notificationId)],
   },
