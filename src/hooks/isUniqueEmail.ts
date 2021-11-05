@@ -1,6 +1,11 @@
 import { Hook, HookContext } from '@feathersjs/feathers';
 import { BadRequest } from '@feathersjs/errors';
 
+/**
+ * Check if email is already exist in database
+ * data.email - email from request body
+ * user.total - if user with this email is exist,value in total will be greater than 0 
+ */
 export default (): Hook => {
   return async (context: HookContext): Promise<HookContext> => {
     const { app, data } = context;

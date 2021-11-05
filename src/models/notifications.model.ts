@@ -4,6 +4,11 @@ import { Sequelize, DataTypes, Model } from 'sequelize';
 import { Application } from '../declarations';
 import { HookReturn } from 'sequelize/types/lib/hooks';
 
+export enum NotificationType {
+  REPORT_CREATED ='REPORT_CREATED',
+  DOWNLOAD_READY ='DOWNLOAD_READY',
+  TERMS_UPDATED = 'TERMS_UPDATED'
+}
 
 export default function (app: Application): typeof Model {
   const sequelizeClient: Sequelize = app.get('sequelizeClient');
@@ -23,9 +28,9 @@ export default function (app: Application): typeof Model {
       defaultValue: false,
     },
     type: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.ENUM,
+      values: Object.values(NotificationType),
       allowNull: false,
-      defaultValue: 1,
     },
     userId: {
       type: DataTypes.UUID,
