@@ -21,16 +21,14 @@ const notExistedUser = {
 let userId: NullableId;
 
 describe('authentication', () => {
-  it('should succeed - registered the authentication service', () => {
-    expect(service).to.exist;
-  });
 
   describe('local strategy', () => {
     before(async () => {
+      expect(service).to.exist;
       const { id } = await app.service('users').create(userInfo);
       userId = id;
     });
-    
+
     after(async () => {
       await app.service('users').remove(userId);
     });

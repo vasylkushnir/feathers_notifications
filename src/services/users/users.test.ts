@@ -1,6 +1,6 @@
 import app from '../../app';
 import { expect } from 'chai';
-import { NullableId } from '@feathersjs/feathers';
+import { Id } from '@feathersjs/feathers';
 import { after } from 'mocha';
 
 const service = app.service('users');
@@ -10,15 +10,16 @@ const userInfo = {
   email: 'create@example.com',
   password: 'supersecret',
 };
-let userId: number;
+let userId: Id;
 const unexistedId = '783deee0-3732-11ec-9301-13adbda06b66';
 
 describe('\'users\' service', () => {
-  it('It should succeed - registered the service', () => {
-    expect(service).to.exist;
-  });
 
   describe('create user', () => {
+    before(async () => {
+      expect(service).to.exist;
+    });
+
     after(async () => {
       await service.remove(userId);
     });
@@ -129,7 +130,7 @@ describe('\'users\' service', () => {
     const updateUserEmail = {
       email: 'updatedemail@test.com',
     };
-    let _userId: NullableId;
+    let _userId: Id;
     before(async () => {
       const { id } = await service.create(userInfo);
       userId = id;
