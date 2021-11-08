@@ -2,29 +2,29 @@ import app from '../../app';
 import { expect } from 'chai';
 import { Id } from '@feathersjs/feathers';
 
-const service = app.service('notifications');
-const userInfo = {
-  firstName: 'test user name',
-  lastName: 'test user last',
-  email: 'create_notification@example.com',
-  password: 'supersecret',
-};
-let userId!: Id;
-let notificationId: Id;
-let _notificationId: Id;
-const notExistedNotificationId = '66c9a620-3bdc-11ec-a993-ff3e9e1971e7';
-const notificationInfo = {
-  description: 'test description',
-  userId,
-  type: 'REPORT_CREATED',
-};
-const notificationCreated = {
-  description: 'test description',
-  userId,
-  type: 'TERMS_UPDATED',
-};
-
 describe('\'notifications\' service', () => {
+  const service = app.service('notifications');
+  const userInfo = {
+    firstName: 'test user name',
+    lastName: 'test user last',
+    email: 'create_notification@example.com',
+    password: 'supersecret',
+  };
+  let userId!: Id;
+  let notificationId1: Id;
+  let notificationId2: Id;
+  const notExistedNotificationId = '66c9a620-3bdc-11ec-a993-ff3e9e1971e7';
+  const notificationInfo = {
+    description: 'test description',
+    userId,
+    type: 'REPORT_CREATED',
+  };
+  const notificationCreated = {
+    description: 'test description',
+    userId,
+    type: 'TERMS_UPDATED',
+  };
+
   before(async () => {
     expect(service).to.exist;
     const { id } = await app.service('users').create(userInfo);
@@ -39,12 +39,12 @@ describe('\'notifications\' service', () => {
 
   describe('create notification', () => {
     after(async () => {
-      await service.remove(notificationId);
+      await service.remove(notificationId1);
     });
 
     it('should succeed - create notification', async () => {
       const response = await service.create(notificationInfo);
-      notificationId = response.id;
+      notificationId1 = response.id;
       expect(response.id).to.exist;
       expect(response.description).to.equal(notificationInfo.description);
       expect(response.isRead).to.equal(false);
@@ -86,19 +86,19 @@ describe('\'notifications\' service', () => {
   describe('get notification by id', () => {
     before(async () => {
       const { id } = await service.create(notificationInfo);
-      notificationId = id;
+      notificationId1 = id;
     });
 
     after(async () => {
-      await service.remove(notificationId);
+      await service.remove(notificationId1);
     });
 
     it('should succeed - get notification by id', async () => {
-      const { description, type, id, userId } = await service.get(notificationId);
+      const { description, type, id, userId } = await service.get(notificationId1);
       expect(description).to.equal(notificationInfo.description);
       expect(type).to.equal(notificationInfo.type);
       expect(userId).to.equal(userId);
-      expect(id).to.equal(notificationId);
+      expect(id).to.equal(notificationId1);
     });
 
     it('should fail - not existed notificationId', async () => {
@@ -127,20 +127,19 @@ describe('\'notifications\' service', () => {
   describe('find notification', () => {
     before(async () => {
       const { id } = await service.create(notificationInfo);
-      notificationId = id;
+      notificationId1 = id;
       const { id: notifId } = await service.create(notificationCreated);
-      _notificationId = notifId;
+      notificationId2 = notifId;
     });
 
     after(async () => {
-      await service.remove(notificationId);
-      await service.remove(_notificationId);
+      await service.remove(notificationId1);
+      await service.remove(notificationId2);
     });
 
     it('should succeed - find just created notification', async () => {
       const response: any = await service.find();
-      const { total } = response;
-      expect(total).to.equal(2);
+      expect(response.total).to.equal(2);
       expect(response).to.have.keys(['total', 'limit', 'skip', 'data']);
     });
 
@@ -157,26 +156,26 @@ describe('\'notifications\' service', () => {
 
     it('should succeed - check sorting', async () => {
       const response: any = await service.find();
-      expect(response.data[0].id).to.equal(_notificationId);
-      expect(response.data[1].id).to.equal(notificationId);
+      expect(response.data[0].id).to.equal(notificationId2);
+      expect(response.data[1].id).to.equal(notificationId1);
     });
   });
 
   describe('update (patch) notification status', () => {
     before(async () => {
       const { id } = await service.create(notificationInfo);
-      notificationId = id;
+      notificationId1 = id;
       const { id: notifId } = await service.create(notificationInfo);
-      _notificationId = notifId;
+      notificationId2 = notifId;
     });
 
     after(async () => {
-      await service.remove(notificationId);
-      await service.remove(_notificationId);
+      await service.remove(notificationId1);
+      await service.remove(notificationId2);
     });
 
     it('should succeed - update notification status', async () => {
-      const { isRead } = await service.patch(notificationId, { isRead: true });
+      const { isRead } = await service.patch(notificationId1, { isRead: true });
       expect(isRead).to.equal(true);
     });
 
@@ -199,7 +198,7 @@ describe('\'notifications\' service', () => {
 
     it('should fail - invalid body attribute', async () => {
       try {
-        await service.patch(notificationId, { completed: true });
+        await service.patch(notificationId1, { completed: true });
         expect.fail('call should have failed');
       } catch (err: any) {
         const { code, message } = err;
@@ -210,7 +209,7 @@ describe('\'notifications\' service', () => {
 
     it('should fail - invalid status value', async () => {
       try {
-        await service.patch(notificationId, { isRead: false });
+        await service.patch(notificationId1, { isRead: false });
         expect.fail('call should have failed');
       } catch (err: any) {
         const { code, message } = err;

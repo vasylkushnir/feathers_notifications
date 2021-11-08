@@ -1,26 +1,25 @@
 import app from '../../app';
 import { after } from 'mocha';
-import { NullableId } from '@feathersjs/feathers';
+import { Id } from '@feathersjs/feathers';
 import { expect } from 'chai';
 
-const service = app.service('authentication');
-const userInfo = {
-  firstName: 'test user name',
-  lastName: 'test user last',
-  email: 'someone_test@example.com',
-  password: 'supersecret',
-};
-const userLogin = {
-  email: 'someone_test@example.com',
-  password: 'supersecret',
-};
-const notExistedUser = {
-  email: 'notexisteduser@example.com',
-  password: 'supersecret',
-};
-let userId: NullableId;
-
 describe('authentication', () => {
+  const service = app.service('authentication');
+  const userInfo = {
+    firstName: 'test user name',
+    lastName: 'test user last',
+    email: 'someone_test@example.com',
+    password: 'supersecret',
+  };
+  const userLogin = {
+    email: 'someone_test@example.com',
+    password: 'supersecret',
+  };
+  const notExistedUser = {
+    email: 'notexisteduser@example.com',
+    password: 'supersecret',
+  };
+  let userId: Id;
 
   describe('local strategy', () => {
     before(async () => {

@@ -24,7 +24,7 @@
     "npm": ">= 3.0.0"
   },
   "scripts": {
-    "test": "NODE_ENV=test ts-mocha src/**/*.test.ts --recursive --exit",
+    "test": "NODE_ENV=test ts-mocha src/**/*.spec.ts --recursive --exit",
     "lint": "eslint . --ext .ts",
     "lint:fix": "npm run lint -- --fix",
     "dev": "ts-node-dev --no-notify src/",

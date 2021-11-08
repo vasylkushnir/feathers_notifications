@@ -3,20 +3,19 @@ import { expect } from 'chai';
 import { Id } from '@feathersjs/feathers';
 import { after } from 'mocha';
 
-const service = app.service('users');
-const userInfo = {
-  firstName: 'test user name',
-  lastName: 'test user last',
-  email: 'create@example.com',
-  password: 'supersecret',
-};
-let userId: Id;
-const unexistedId = '783deee0-3732-11ec-9301-13adbda06b66';
-
 describe('\'users\' service', () => {
+  const service = app.service('users');
+  const userInfo = {
+    firstName: 'test user name',
+    lastName: 'test user last',
+    email: 'create@example.com',
+    password: 'supersecret',
+  };
+  let userId: Id;
+  const unexistedId = '783deee0-3732-11ec-9301-13adbda06b66';
 
   describe('create user', () => {
-    before(async () => {
+    before(() => {
       expect(service).to.exist;
     });
 
