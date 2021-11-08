@@ -1,36 +1,33 @@
-import app from '../../src/app';
+import app from '../../app';
 import { after } from 'mocha';
-import { NullableId } from '@feathersjs/feathers';
+import { Id } from '@feathersjs/feathers';
 import { expect } from 'chai';
 
-const service = app.service('authentication');
-const userInfo = {
-  firstName: 'test user name',
-  lastName: 'test user last',
-  email: 'someone_test@example.com',
-  password: 'supersecret',
-};
-const userLogin = {
-  email: 'someone_test@example.com',
-  password: 'supersecret',
-};
-const notExistedUser = {
-  email: 'notexisteduser@example.com',
-  password: 'supersecret',
-};
-let userId: NullableId;
-
 describe('authentication', () => {
-  it('should succeed - registered the authentication service', () => {
-    expect(service).to.exist;
-  });
+  const service = app.service('authentication');
+  const userInfo = {
+    firstName: 'test user name',
+    lastName: 'test user last',
+    email: 'someone_test@example.com',
+    password: 'supersecret',
+  };
+  const userLogin = {
+    email: 'someone_test@example.com',
+    password: 'supersecret',
+  };
+  const notExistedUser = {
+    email: 'notexisteduser@example.com',
+    password: 'supersecret',
+  };
+  let userId: Id;
 
   describe('local strategy', () => {
     before(async () => {
+      expect(service).to.exist;
       const { id } = await app.service('users').create(userInfo);
       userId = id;
     });
-    
+
     after(async () => {
       await app.service('users').remove(userId);
     });

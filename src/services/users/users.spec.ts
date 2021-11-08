@@ -1,24 +1,24 @@
-import app from '../../src/app';
+import app from '../../app';
 import { expect } from 'chai';
-import { NullableId } from '@feathersjs/feathers';
+import { Id } from '@feathersjs/feathers';
 import { after } from 'mocha';
 
-const service = app.service('users');
-const userInfo = {
-  firstName: 'test user name',
-  lastName: 'test user last',
-  email: 'create@example.com',
-  password: 'supersecret',
-};
-let userId: NullableId;
-const unexistedId = '783deee0-3732-11ec-9301-13adbda06b66';
-
 describe('\'users\' service', () => {
-  it('It should succeed - registered the service', () => {
-    expect(service).to.exist;
-  });
+  const service = app.service('users');
+  const userInfo = {
+    firstName: 'test user name',
+    lastName: 'test user last',
+    email: 'create@example.com',
+    password: 'supersecret',
+  };
+  let userId: Id;
+  const unexistedId = '783deee0-3732-11ec-9301-13adbda06b66';
 
   describe('create user', () => {
+    before(() => {
+      expect(service).to.exist;
+    });
+
     after(async () => {
       await service.remove(userId);
     });
@@ -108,7 +108,7 @@ describe('\'users\' service', () => {
     });
 
     it('should succeed - find user', async () => {
-      const response = await service.find();
+      const response: any = await service.find();
       const { total } = response;
       expect(total).not.to.equal(0);
       expect(response).to.have.keys(['total', 'limit', 'skip', 'data']);
@@ -129,7 +129,7 @@ describe('\'users\' service', () => {
     const updateUserEmail = {
       email: 'updatedemail@test.com',
     };
-    let _userId: NullableId;
+    let _userId: Id;
     before(async () => {
       const { id } = await service.create(userInfo);
       userId = id;
