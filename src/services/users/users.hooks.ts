@@ -7,6 +7,7 @@ import isCurrent from '../../hooks/isCurrent';
 import { disallow, iff, isProvider } from 'feathers-hooks-common';
 import isValidId from '../../hooks/isValidId';
 import isValidQueryParam from '../../hooks/isValidQueryParam';
+import checkPermissions from 'feathers-permissions';
 // Don't remove this comment. It's needed to format import lines nicely.
 
 const { authenticate } = feathersAuthentication.hooks;
@@ -17,6 +18,9 @@ export default {
     all: [],
     find: [
       authenticate('jwt'),
+      checkPermissions({
+        roles: [ 'ADMIN' ],
+      }),
       iff(isProvider('external'), isValidQueryParam(getUsersFilters)),
     ],
     get: [
@@ -55,10 +59,10 @@ export default {
       protect('password'),
     ],
     find: [],
-    get: [],
-    create: [],
-    update: [],
-    patch: [],
+    get: [protect('permissions')],
+    create: [protect('permissions')],
+    update: [protect('permissions')],
+    patch: [protect('permissions')],
     remove: [],
   },
 
