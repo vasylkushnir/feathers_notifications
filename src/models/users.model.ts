@@ -4,6 +4,11 @@ import { Sequelize, DataTypes, Model } from 'sequelize';
 import { Application } from '../declarations';
 import { HookReturn } from 'sequelize/types/lib/hooks';
 
+export enum UserRoles {
+  SUPER_ADMIN = 'SUPER_ADMIN',
+  ADMIN ='ADMIN',
+  USER ='USER'
+}
 
 export default function (app: Application): typeof Model {
   const sequelizeClient: Sequelize = app.get('sequelizeClient');
@@ -32,6 +37,12 @@ export default function (app: Application): typeof Model {
     },
     title: {
       type: DataTypes.STRING,
+    },
+    permissions: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      values: Object.values(UserRoles),
+      defaultValue: [UserRoles.USER],
+      allowNull: false,
     },
   }, {
     hooks: {

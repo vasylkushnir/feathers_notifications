@@ -29,7 +29,7 @@ describe('\'users\' service', () => {
       userId = id;
       expect(id).to.exist;
       expect(email).to.equal(userInfo.email);
-      expect(response).to.have.keys(['id', 'firstName', 'lastName', 'email', 'createdAt', 'updatedAt', 'password', 'title']);
+      expect(response).to.have.keys(['id', 'firstName', 'lastName', 'email', 'createdAt', 'updatedAt', 'password', 'title', 'permissions']);
     });
 
     it('should fail - email already in use', async () => {
@@ -203,6 +203,7 @@ describe('\'users\' service', () => {
       lastName: 'updated user last',
       email: 'create@example.com',
       password: 'supersecret',
+      permissions: ['USER'],
     };
     before(async () => {
       const { id } = await service.create(userInfo);
@@ -237,7 +238,7 @@ describe('\'users\' service', () => {
         password: 'supersecret',
       };
       try {
-        await service.patch(userId,invalidUserData);
+        await service.update(userId,invalidUserData);
         expect.fail('call should have failed');
       } catch (err: any) {
         const { code, message } = err;

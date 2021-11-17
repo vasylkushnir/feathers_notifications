@@ -12,6 +12,8 @@ import { iff, isProvider } from 'feathers-hooks-common';
 import isValidQueryParam from '../../hooks/isValidQueryParam';
 import isExistingUser from '../../hooks/isExistingUser';
 import { HookContext } from '@feathersjs/feathers';
+import checkPermissions from 'feathers-permissions';
+import { UserRoles } from '../../models/users.model';
 // Don't remove this comment. It's needed to format import lines nicely.
 
 const { authenticate } = authentication.hooks;
@@ -29,7 +31,7 @@ function setNotificationStatus(context: HookContext): HookContext {
   return context;
 }
 function sortByCreatedAt(context: HookContext): HookContext {
-  if (!context.params.query?.$sort) { 
+  if (!context.params.query?.$sort) {
     context.params.query = {
       $sort: { createdAt: -1 },
       ...context.params.query,
@@ -54,6 +56,9 @@ export default {
     ],
     get: [isValidId(notificationId)],
     create: [
+      checkPermissions({
+        roles: [ UserRoles.ADMIN, UserRoles.SUPER_ADMIN ],
+      }),
       validate.form(createNotificationSchema),
       isExistingUser(),
     ],
