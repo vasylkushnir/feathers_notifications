@@ -4,9 +4,10 @@ import { Sequelize, DataTypes, Model } from 'sequelize';
 import { Application } from '../declarations';
 import { HookReturn } from 'sequelize/types/lib/hooks';
 
-export enum UserPermissions {
+export enum UserRoles {
+  SUPER_ADMIN = 'SUPER_ADMIN',
   ADMIN ='ADMIN',
-  USER ='USER',
+  USER ='USER'
 }
 
 export default function (app: Application): typeof Model {
@@ -38,8 +39,9 @@ export default function (app: Application): typeof Model {
       type: DataTypes.STRING,
     },
     permissions: {
-      type: DataTypes.STRING,
-      defaultValue: UserPermissions.USER,
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      values: Object.values(UserRoles),
+      defaultValue: [UserRoles.USER],
       allowNull: false,
     },
   }, {

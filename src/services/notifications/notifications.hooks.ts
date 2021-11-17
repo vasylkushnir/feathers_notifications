@@ -13,6 +13,7 @@ import isValidQueryParam from '../../hooks/isValidQueryParam';
 import isExistingUser from '../../hooks/isExistingUser';
 import { HookContext } from '@feathersjs/feathers';
 import checkPermissions from 'feathers-permissions';
+import { UserRoles } from '../../models/users.model';
 // Don't remove this comment. It's needed to format import lines nicely.
 
 const { authenticate } = authentication.hooks;
@@ -56,7 +57,7 @@ export default {
     get: [isValidId(notificationId)],
     create: [
       checkPermissions({
-        roles: [ 'ADMIN' ],
+        roles: [ UserRoles.ADMIN ],
       }),
       validate.form(createNotificationSchema),
       isExistingUser(),
