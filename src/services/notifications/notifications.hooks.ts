@@ -57,7 +57,7 @@ export default {
     get: [isValidId(notificationId)],
     create: [
       checkPermissions({
-        roles: [ UserRoles.ADMIN ],
+        roles: [ UserRoles.ADMIN, UserRoles.SUPER_ADMIN ],
       }),
       validate.form(createNotificationSchema),
       isExistingUser(),

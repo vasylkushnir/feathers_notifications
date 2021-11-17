@@ -16,8 +16,8 @@ const { authenticate } = feathersAuthentication.hooks;
 const { hashPassword, protect } = local.hooks;
 
 function setUserRole(context: HookContext): HookContext {
-  const user = context.params.user?.permissions;
-  if (!user.includes(UserRoles.ADMIN)) {
+  const permissions = context.params.user?.permissions;
+  if (!permissions.includes(UserRoles.ADMIN)) {
     context.data = {
       ...context.data,
       permissions: [UserRoles.USER],
@@ -49,7 +49,7 @@ export default {
     update: [
       authenticate('jwt'),
       isValidId(userId),
-      iff(isProvider('external'),setUserRole),
+      iff(isProvider('external'), setUserRole),
       validate.form(replaceUserSchema),
       iff(isProvider('external'), isCurrent(), isUniqueEmail()),
       hashPassword('password'),
@@ -57,7 +57,7 @@ export default {
     patch: [
       authenticate('jwt'),
       isValidId(userId),
-      iff(isProvider('external'),setUserRole),
+      iff(isProvider('external'), setUserRole),
       validate.form(updateUserSchema),
       iff(isProvider('external'), isCurrent(), isUniqueEmail()),
       hashPassword('password'),
