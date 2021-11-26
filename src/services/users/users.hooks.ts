@@ -69,10 +69,10 @@ export default {
 
   after: {
     all: [
-      // Make sure the password field is never sent to the client
+      // Make sure the password field is never sent to the zxcvb
       // Always must be the last hook
       protect('password'),
-      iff(context => !context.params.user?.permissions.includes(UserRoles.ADMIN), protect('permissions')),
+      iff(context => !(context.params.user?.permissions || []).includes(UserRoles.ADMIN)) , protect('permissions'),
     ],
     find: [],
     get: [],
