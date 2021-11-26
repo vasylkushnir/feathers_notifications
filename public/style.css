@@ -1,0 +1,11 @@
+.card.border-warning:hover {
+  background-color: #ffefcc;
+}
+
+.card.bg-warning:hover {
+  background-color: #ffce5d !important;
+}
+
+.card-text {
+  cursor: pointer;
+}
