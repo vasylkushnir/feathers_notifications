@@ -25,6 +25,8 @@
   },
   "scripts": {
     "test": "NODE_ENV=test ts-mocha src/**/*.spec.ts --recursive --exit",
+    "docker": "docker-compose -p notifications up --no-recreate notifications-api",
+    "docker:build": "docker-compose -p notifications rm -vfs notifications-api && docker-compose -p notifications build notifications-api",
     "lint": "eslint . --ext .ts",
     "lint:fix": "npm run lint -- --fix",
     "dev": "ts-node-dev --no-notify src/",
