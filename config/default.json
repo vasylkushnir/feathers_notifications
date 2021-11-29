@@ -41,5 +41,5 @@
       }
     }
   },
-  "postgres": "postgres://postgres:@localhost:5432/feathers_postgres"
+  "DATABASE_URL": "postgres://postgres:@localhost:5432/feathers_postgres"
 }

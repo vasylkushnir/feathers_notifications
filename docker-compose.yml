@@ -3,4 +3,4 @@ version: '3.7'
 services:
   notifications-api:
     environment:
-      DATABASE_URL: postgres://user:pass@postgres:5432/db
+      DATABASE_URL: postgres://user:pass@postgres:5432/db_test

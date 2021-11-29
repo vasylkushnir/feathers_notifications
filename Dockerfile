@@ -44,3 +44,11 @@ ENV NODE_ENV=dev
 WORKDIR /app
 COPY --chown=node --from=dependencies /app/node_modules ./node_modules
 CMD ["npm", "run", "dev"]
+
+#                 production
+# --------------------------------------
+FROM base as production
+ENV NODE_ENV=production
+WORKDIR /app
+COPY --chown=node --from=dependencies /app/prod_node_modules ./node_modules
+CMD ["npm", "run", "start"]
