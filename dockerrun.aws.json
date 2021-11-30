@@ -1,55 +1,9 @@
 {
-	"AWSEBDockerrunVersion": 2,
-	"containerDefinitions": [{
-			"environment": [{
-					"name": "POSTGRES_USER",
-					"value": "user"
-				},
-				{
-					"name": "POSTGRES_PASSWORD",
-					"value": "pass"
-				},
-				{
-					"name": "POSTGRES_DB",
-					"value": "db"
-				},
-        {
-					"name": "DATABASE_URL",
-					"value": "postgres://user:pass@postgres:5432/db"
-				}
-			],
-			"essential": true,
-			"image": "postgres:10.4",
-			"memory": 100,
-			"mountPoints": [{
-				"containerPath": "/var/lib/postgresql/data/",
-				"sourceVolume": "postgres"
-			}],
-			"name": "postgres",
-			"portMappings": [{
-				"containerPort": 5432,
-				"hostPort": 5432
-			}]
-		},
-		{
-			"essential": true,
-			"links": [
-				"postgres"
-			],
-			"name": "notifications-api",
-			"image": "notifications_notifications-api",
-			"memory": 100,
-			"portMappings": [{
-				"containerPort": 80,
-				"hostPort": 3030
-			}]
-		}
-	],
-	"volumes": [{
-			"host": {
-				"sourcePath": "postgres"
-			},
-			"name": "postgres"
-		}
-	]
+  "AWSEBDockerrunVersion": "1",
+  "Ports": [
+    {
+      "ContainerPort": 3030,
+      "HostPort": 80
+    }
+  ]
 }
