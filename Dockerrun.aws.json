@@ -1,70 +1,10 @@
 {
-  "AWSEBDockerrunVersion": 3,
-    "volumes": [
-       {
-         "name": "postgres",
-         "host": {
-           "sourcePath": "/var/app/current/postgres"
-         }
-       },
-       {
-        "name": "notifications",
-        "host": {
-          "sourcePath": "/var/app/current/notifications"
-        }
-       } 
-     ],
-     "containerDefinitions": [
-       {
-         "name": "notifications",
-         "image": "231089140187/notifications_notifications-api:latest",
-         "environment": [
-          {
-            "name": "DATABASE_URL",
-            "value": "postgres://user:pass@postgres:5432/db"
-          }
-        ],
-         "essential": true,
-         "memory": "128",
-         "portMappings": [
-           {
-             "hostPort": "80",
-             "containerPort": "3030"
-           }
-         ],
-         "mountPoints": [
-          {
-            "sourceVolume": "awseb-logs-notifications",
-            "containerPath": "/var/log/containers/notifications"
-          }
-        ],
-         "links": ["postgres"]
-       },
-       {
-         "name": "postgres",
-         "image": "231089140187/postgres:10.4",
-         "environment": [
-          {
-            "name": "POSTGRES_USER",
-            "value": "user"
-          },
-          {
-            "name": "POSTGRES_PASSWORD",
-            "value": "pass"
-          },
-          {
-            "name": "POSTGRES_DB",
-            "value": "db"
-          }
-        ],
-         "essential": true,
-         "memory": "128",
-         "portMappings": [
-           {
-             "hostPort": "5432",
-             "containerPort": "5432"
-           }
-         ]
-       }
-     ]
-   } 
+  "AWSEBDockerrunVersion": "1",
+  "Image": "231089140187/notifications_notifications-api:latest",
+  "Ports": [
+    {
+      "ContainerPort": "4000",
+      "HostPort": "80"
+    }
+  ]
+}
