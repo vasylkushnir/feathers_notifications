@@ -1,12 +1,48 @@
 {
-  "AWSEBDockerrunVersion": "1",
-  "Image": {
-    "Name": "notifications-api"
-  },
-  "Ports": [
-    {
-      "ContainerPort": "3030",
-      "HostPort": "80"
-    }
-  ]
-}
+  "AWSEBDockerrunVersion": 2,
+    "volumes": [
+       {
+         "name": "postgres",
+         "host": {
+           "sourcePath": "/data/db"
+         }
+       } 
+     ],
+     "containerDefinitions": [
+       {
+         "name": "notifications-api",
+         "image": "notifications_notifications-api",
+         "essential": true,
+         "memory": 128,
+         "portMappings": [
+           {
+             "hostPort": 80,
+             "containerPort": 3030
+           }
+         ],
+         "mountPoints": [
+           {
+             "sourceVolume": "my-named-shared-data",
+             "containerPath": "/app"
+           }
+         ]
+       },
+       {
+         "name": "postgres",
+         "image": "postgres:10.4",
+         "memory": 128,
+         "portMappings": [
+           {
+             "hostPort": 5432,
+             "containerPort": 5432
+           }
+         ],
+         "mountPoints": [
+           {
+             "sourceVolume": "my-named-shared-data",
+             "containerPath": "/data/db"
+           }
+         ]
+       }
+     ]
+   } 
