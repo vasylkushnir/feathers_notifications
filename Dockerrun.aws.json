@@ -10,8 +10,8 @@
      ],
      "containerDefinitions": [
        {
-         "name": "notifications-api",
-         "image": "notifications_notifications-api",
+         "name": "notifications",
+         "image": "231089140187/notifications_notifications-api",
          "essential": true,
          "memory": 128,
          "portMappings": [
@@ -20,12 +20,7 @@
              "containerPort": 3030
            }
          ],
-         "mountPoints": [
-           {
-             "sourceVolume": "my-named-shared-data",
-             "containerPath": "/app"
-           }
-         ]
+         "links": ["postgres"]
        },
        {
          "name": "postgres",
@@ -35,12 +30,6 @@
            {
              "hostPort": 5432,
              "containerPort": 5432
-           }
-         ],
-         "mountPoints": [
-           {
-             "sourceVolume": "my-named-shared-data",
-             "containerPath": "/data/db"
            }
          ]
        }
