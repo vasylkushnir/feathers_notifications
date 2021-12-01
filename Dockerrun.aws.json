@@ -1,5 +1,5 @@
 {
-  "AWSEBDockerrunVersion": 2,
+  "AWSEBDockerrunVersion": 3,
     "volumes": [
        {
          "name": "postgres",
@@ -25,11 +25,11 @@
           }
         ],
          "essential": true,
-         "memory": 128,
+         "memory": "128",
          "portMappings": [
            {
-             "hostPort": 80,
-             "containerPort": 3030
+             "hostPort": "80",
+             "containerPort": "3030"
            }
          ],
          "mountPoints": [
@@ -58,11 +58,11 @@
           }
         ],
          "essential": true,
-         "memory": 128,
+         "memory": "128",
          "portMappings": [
            {
-             "hostPort": 5432,
-             "containerPort": 5432
+             "hostPort": "5432",
+             "containerPort": "5432"
            }
          ]
        }
