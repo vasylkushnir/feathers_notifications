@@ -3,7 +3,7 @@
   "Image": "231089140187/notifications_notifications-api:latest",
   "Ports": [
     {
-      "ContainerPort": "4000",
+      "ContainerPort": "3030",
       "HostPort": "80"
     }
   ]
