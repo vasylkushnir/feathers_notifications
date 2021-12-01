@@ -1,7 +1,7 @@
 {
   "AWSEBDockerrunVersion": "1",
   "Image": {
-    "Name": "notifications_notifications-api"
+    "Name": "notifications-api"
   },
   "Ports": [
     {
