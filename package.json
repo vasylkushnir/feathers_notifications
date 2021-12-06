@@ -25,10 +25,14 @@
   },
   "scripts": {
     "test": "NODE_ENV=test ts-mocha src/**/*.spec.ts --recursive --exit",
+    "docker": "docker-compose -p notifications up --no-recreate notifications-api",
+    "docker:build": "docker-compose -p notifications rm -vfs notifications-api && docker-compose -p notifications build notifications-api",
+    "docker:test": "docker-compose -p notifications run --rm notifications-api npm run test",
     "lint": "eslint . --ext .ts",
     "lint:fix": "npm run lint -- --fix",
     "dev": "ts-node-dev --no-notify src/",
     "start": "npm run compile && node lib/",
+    "build": "tsc",
     "coverage": "nyc npm run test -t ./.nyc-output report --reporter=html --reporter=lcov",
     "compile": "shx rm -rf lib/ && tsc"
   },
