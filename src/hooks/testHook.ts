@@ -10,7 +10,9 @@ import { UserRoles } from '../models/users.model';
 export default (): Hook => {
   return (context: HookContext): HookContext => {
     const user = context.params.user?.permissions;
+    const user2 = context.params.user?.permissions;
     if (!user.includes(UserRoles.ADMIN) && context.params.user?.id !== context.id) {
+      console.log(user2);
       throw new Forbidden('access denied');
     }
     return context;
